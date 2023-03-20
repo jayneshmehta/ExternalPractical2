@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table,
+    td,
+    th,
+    tr {
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 4px;
+    }
+</style>
+
+<body>
+    <table>
+        <tr>
+            <td colspan="3" rowspan="5">
+                <h1>Invoice</h1>
+            </td>
+
+            <td id="SellerAdd" colspan="3">
+
+            </td>
+        </tr>
+        <tr>
+            <td id="" colspan="3">
+
+            </td>
+        </tr>
+        <tr>
+            <td id="SellerAdd2" colspan="3"></td>
+        </tr>
+        <tr>
+            <td id="SellerPhone" colspan="3"></td>
+        </tr>
+        <tr>
+            <td id="SellerEmail" colspan="3"></td>
+        </tr>
+        <tr>
+            <td id="Bill" colspan="3"></td>
+            <td id="SellerName" colspan="3"></td>
+        </tr>
+        <tr>
+            <td id="CompanyName" colspan="3"></td>
+            <td id = "" colspan="3">Invoice</td>
+        </tr>
+        <tr>
+            <td id = "Name" colspan="3"></td>
+            <td colspan="3">12345</td>
+        </tr>
+
+        <tr>
+            <td id = "Add" colspan="3"></td>
+            <td id = "" colspan="3">DATE </td>
+            
+        </tr>
+
+        <tr>
+            <td id = "Add2" colspan="3"></td>
+            <td colspan="3">12/12/2001</td>
+        </tr>
+
+        <tr>
+            <td id = "Phone" colspan="3"></td>
+            <td colspan="3">INVOICE DUE DATE</td>
+       
+        </tr>
+        <tr>
+            <td id = "Email" colspan="3"></td>
+            <td colspan="3">14/03/2004 </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr >
+            <th>Items</th>
+            <th>Description</th>
+            <th>Quntity</th>
+            <th>Price</th>
+            <th>Tax</th>
+            <th>Amount</th>
+        </tr>
+        
+    </table>
+</body>
+<script>
+
+    function show(data) {
+        document.querySelector("#SellerAdd").innerHTML += `
+        Seller Address: ${data[0].SellerDetails.SellerAddress}
+          `
+
+        document.querySelector("#SellerAdd2").innerHTML += `
+        ${data[0].SellerDetails.City}  ${data[0].SellerDetails.State} ${data[0].SellerDetails.Zip}  
+         `
+
+        document.querySelector("#SellerPhone").innerHTML += `
+         Phone:${data[0].SellerDetails.Phone}
+            `
+        document.querySelector("#SellerEmail").innerHTML += `
+         Email:${data[0].SellerDetails.Email}
+        `
+
+        document.querySelector("#Bill").innerHTML += `
+         Bill to: 
+        `
+        document.querySelector("#CompanyName").innerHTML += `
+        Company Name: ${data[0].BuyerDetails.CompanyName}
+        `
+        document.querySelector("#Name").innerHTML += `
+        Name: ${data[0].BuyerDetails.Name}
+        `
+
+        document.querySelector("#Add").innerHTML += `
+        Address: ${data[0].BuyerDetails.Address}
+        `
+
+        document.querySelector("#Add2").innerHTML += `
+         ${data[0].BuyerDetails.City}  ${data[0].BuyerDetails.State} ${data[0].BuyerDetails.Zip} 
+        `
+
+        document.querySelector("#Phone").innerHTML += `
+          Name: ${data[0].BuyerDetails.Phone}
+        `
+
+        document.querySelector("#Email").innerHTML += `
+          Name: ${data[0].BuyerDetails.Email}
+        `
+
+
+        data[0].ItemDetails.forEach(element => {
+            document.querySelector("table").innerHTML += `
+        <tr>
+            <td>${element.ItemName}</td>
+            <td>${element.Description}</td>
+            <td>${element.Quntity}</td>
+            <td>${element.Price}</td>
+            <td>${element.Tax}</td>
+            <td>${element.Amount}</td>
+        </tr>    
+    `
+        });
+
+        document.querySelector("table").innerHTML += `
+        <tr>
+            <td colspan="3">Notes: <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptatem deserunt, autem nisi dolore nesciunt  </td>
+            <td colspan="3"><h2>Total <br> $6830.0<h2></td>
+        </tr>
+    `
+    }
+    async function get(link) {
+        let obj = await fetch(link);
+        let data = await obj.text();
+        localStorage.setItem("data", data);
+        
+        
+        let output = localStorage.getItem("data");
+        output = JSON.parse(output)
+        show(output)
+
+    }
+
+    get("invoice.json");
+
+</script>
+
+</html>
